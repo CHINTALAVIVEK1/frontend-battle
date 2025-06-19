@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Showcase</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            line-height: 1.6;
+            background-color: #000; /* Ensuring a dark background for the whole page */
+        }
+        /* Make the section relative to contain the absolutely positioned button wrapper */
+        .relative-section {
+            position: relative;
+            /* Ensure this section has a minimum height to provide a sufficient hover area */
+            min-height: 400px; /* Example height, adjust as needed */
+            display: flex; /* Use flex to center the content within the section */
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Important for blur to work within bounds if logos extend */
+        }
+
+        /* Custom styles for logo images to ensure proper display on dark background */
+        .logo-img {
+            filter: brightness(0) invert(1); /* Makes colored logos white for dark background */
+            max-width: 150px; /* Max width for logos */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: contain; /* Ensures the entire image fits within its bounds */
+        }
+        /* Specific filter for Supercell logo (which might be white already) to ensure it's visible */
+        .supercell-logo {
+            filter: none; /* Do not invert, assume it's white or very light */
+        }
+
+        /* Styles for the actual "Meet our customers" button */
+        #meet-customers-btn {
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            white-space: nowrap; /* Prevent text wrapping inside the button */
+            transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Added transform for lift */
+        }
+        #meet-customers-btn:hover {
+            background-color: rgba(255, 255, 255, 0.15); /* Slightly less transparent on hover */
+            border-color: rgba(255, 255, 255, 0.3); /* Stronger border on hover */
+            transform: translateY(-2px); /* Slight lift effect on hover */
+        }
+
+        /* Wrapper for the button to ensure it's centered over the grid */
+        #meet-customers-button-wrapper {
+            position: absolute; /* Position wrapper absolutely over the section */
+            inset: 0; /* Cover the entire relative-section */
+            display: flex; /* Use flexbox to center content */
+            align-items: center; /* Vertically center */
+            justify-content: center; /* Horizontally center */
+            z-index: 10; /* Ensure button is above logos */
+            pointer-events: none; /* Important: Initially don't block clicks on logos */
+            opacity: 0; /* Initially hidden */
+            transition: opacity 0.3s ease-in-out; /* Smooth transition for the wrapper's visibility */
+        }
+        #meet-customers-button-wrapper.is-visible {
+            opacity: 1;
+            pointer-events: auto; /* Allow interaction with the button when visible */
+        }
+
+        /* Styles for the customer logos grid, including the blur effect */
+        #customer-logos-grid {
+            /* Initial state: no blur */
+            filter: blur(0px);
+            transition: filter 0.3s ease-in-out; /* Smooth transition for blur effect */
+        }
+        #customer-logos-grid.is-blurred {
+            /* Changed blur value to 50% */
+            filter: blur(50px); /* Apply blur when 'is-blurred' class is active, approximated 50% for pixels */
+            /* Ensure pointer events are allowed on the blurred grid as well,
+               though the button wrapper will capture them when visible */
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="antialiased text-white">
+
+    <!-- The section containing the logos, now with position: relative -->
+    <section id="interactive-logo-section" class="relative-section bg-black py-16 md:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- "Meet our customers" button wrapper -->
+            <!-- This wrapper will be absolutely positioned and center the button -->
+            <div id="meet-customers-button-wrapper">
+                <a href="#" id="meet-customers-btn" class="inline-flex items-center space-x-2 px-8 py-4
+                                    text-lg font-medium text-white rounded-full">
+                    <span>Meet our customers</span>
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Customer Logos Grid -->
+            <div id="customer-logos-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-12 items-center justify-items-center">
+                <!-- Logo 1: Perplexity -->
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://placehold.co/150x50/000/ffffff?text=perplexity" alt="Perplexity Logo" class="logo-img opacity-80 hover:opacity-100 transition duration-300">
+                </div>
+                <!-- Logo 2: Supercell -->
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://placehold.co/150x50/000/ffffff?text=SUPERCELL" alt="Supercell Logo" class="logo-img supercell-logo opacity-80 hover:opacity-100 transition duration-300">
+                </div>
+                <!-- Logo 3: Monzo -->
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://placehold.co/150x50/000/ffffff?text=monzo" alt="Monzo Logo" class="logo-img opacity-80 hover:opacity-100 transition duration-300">
+                </div>
+                <!-- Logo 4: Raycast -->
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://placehold.co/150x50/000/ffffff?text=Raycast" alt="Raycast Logo" class="logo-img opacity-80 hover:opacity-100 transition duration-300">
+                </div>
+                <!-- Logo 5: Retool -->
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://placehold.co/150x50/000/ffffff?text=Retool" alt="Retool Logo" class="logo-img opacity-80 hover:opacity-100 transition duration-300">
+                </div>
+                <!-- Logo 6: Mercury -->
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://placehold.co/150x50/000/ffffff?text=MERCURY" alt="Mercury Logo" class="logo-img opacity-80 hover:opacity-100 transition duration-300">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const interactiveArea = document.getElementById('interactive-logo-section');
+            const meetCustomersBtnWrapper = document.getElementById('meet-customers-button-wrapper');
+            const customerLogosGrid = document.getElementById('customer-logos-grid'); // Get the logos grid element
+
+            let hideTimeoutId;
+
+            /**
+             * Shows the "Meet our customers" button wrapper and blurs the logos.
+             */
+            const showEffect = () => {
+                clearTimeout(hideTimeoutId);
+                meetCustomersBtnWrapper.classList.add('is-visible');
+                customerLogosGrid.classList.add('is-blurred'); // Add blur class
+            };
+
+            /**
+             * Hides the "Meet our customers" button wrapper and unblurs the logos after a short delay.
+             */
+            const hideEffect = () => {
+                hideTimeoutId = setTimeout(() => {
+                    // Only hide if the mouse is not currently over the button wrapper itself
+                    if (!meetCustomersBtnWrapper.matches(':hover')) {
+                        meetCustomersBtnWrapper.classList.remove('is-visible');
+                        customerLogosGrid.classList.remove('is-blurred'); // Remove blur class
+                    }
+                }, 100);
+            };
+
+            // Listen for mouse entering and leaving the entire interactive section
+            interactiveArea.addEventListener('mouseenter', showEffect);
+            interactiveArea.addEventListener('mouseleave', hideEffect);
+
+            // Also handle mouse entering/leaving the button wrapper itself
+            meetCustomersBtnWrapper.addEventListener('mouseenter', showEffect);
+            meetCustomersBtnWrapper.addEventListener('mouseleave', hideEffect);
+        });
+    </script>
+
+</body>
+</html>
