@@ -1,0 +1,391 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Embodied Carbon Emissions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: "Montserrat", sans-serif;
+    }
+    /* Custom scrollbar for horizontal scroll on small screens */
+    .scroll-x {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
+</head>
+<body class="bg-[#f0ebe9] text-[#4a4a4a] min-h-screen relative">
+  <div
+    class="max-w-[1920px] mx-auto px-6 py-10 flex flex-col lg:flex-row lg:justify-between"
+  >
+    <!-- Left side filters and key -->
+    <div class="lg:w-1/2 space-y-8">
+      <div>
+        <p class="mb-4 text-sm">Filter by</p>
+        <div class="flex flex-col gap-6">
+          <!-- Type filter -->
+          <div class="flex items-center gap-6 flex-wrap">
+            <p class="w-16 text-sm">Type</p>
+            <div class="flex gap-4 flex-wrap">
+              <button
+                class="flex items-center gap-2 border border-[#4a2f2f] rounded-full px-5 py-2 text-[#4a2f2f] text-sm font-normal"
+              >
+                <span class="w-4 h-4 rounded-full bg-[#6a4545] inline-block"></span>
+                Refurbishment
+              </button>
+              <button
+                class="flex items-center gap-2 border border-[#4a2f2f] rounded-full px-5 py-2 text-[#4a2f2f] text-sm font-normal"
+              >
+                <span class="w-4 h-4 rounded-full bg-[#6a4545] inline-block"></span>
+                New build
+              </button>
+              <button
+                class="flex items-center justify-center rounded-full px-5 py-2 text-white text-sm font-normal bg-[#6a4545]"
+              >
+                All
+              </button>
+            </div>
+          </div>
+          <!-- Status filter -->
+          <div class="flex items-center gap-6 flex-wrap">
+            <p class="w-16 text-sm">Status</p>
+            <div class="flex gap-4 flex-wrap">
+              <button
+                class="rounded-full px-7 py-3 text-white text-sm font-normal bg-[#6a4545]"
+              >
+                Complete
+              </button>
+              <button
+                class="rounded-full px-7 py-3 text-[#4a4a4a] text-sm font-normal border border-[#4a4a4a]"
+              >
+                Estimate
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Key -->
+      <div>
+        <p class="mb-4 text-lg font-semibold text-[#4a4a4a]">Key</p>
+        <div class="flex flex-col gap-4 text-xs max-w-[400px]">
+          <div class="flex items-center gap-4">
+            <svg
+              aria-hidden="true"
+              class="w-16 h-4"
+              fill="none"
+              focusable="false"
+              stroke="#4a4a4a"
+              stroke-dasharray="6 6"
+              stroke-width="1"
+              viewBox="0 0 64 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line x1="0" x2="64" y1="8" y2="8"></line>
+            </svg>
+            <p>
+              500 kgCO
+              <sub>2</sub>e/m<sup>2</sup> - Embodied Carbon Target 2030
+            </p>
+          </div>
+          <div class="flex items-center gap-4">
+            <svg
+              aria-hidden="true"
+              class="w-16 h-1"
+              fill="none"
+              focusable="false"
+              stroke="#4a4a4a"
+              stroke-width="1"
+              viewBox="0 0 64 4"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line x1="0" x2="64" y1="2" y2="2"></line>
+            </svg>
+            <p>
+              600 kgCO
+              <sub>2</sub>e/m<sup>2</sup> - Embodied Carbon Target 2025
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Right side title and download -->
+    <div
+      class="lg:w-1/2 flex flex-col items-end text-right space-y-4 mt-10 lg:mt-0"
+    >
+      <h1 class="text-[64px] leading-[1.1] font-light text-[#4a4a4a]">
+        EMBODIED<br />
+        <span class="text-[#6a4545]">CARBON</span><br />
+        EMISSIONS
+      </h1>
+      <p class="text-sm max-w-[300px]">
+        Intensity measured by kgCO
+        <sub>2</sub>e/m<sup>2</sup>
+      </p>
+      <button
+        aria-label="Download the data"
+        class="flex items-center gap-2 text-sm text-[#4a4a4a] border border-[#4a4a4a] rounded-full w-12 h-12 justify-center"
+      >
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="px-6 overflow-x-auto scroll-x">
+    <svg
+      viewBox="0 0 1920 600"
+      class="w-[1920px] max-w-none"
+      aria-label="Bar chart showing embodied carbon intensity (kgCO2e/m2) with multiple bars and values above each bar, horizontal and vertical axis with labels, and dashed and solid lines representing carbon targets"
+      role="img"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <style>
+        .bar {
+          fill: #6a4545;
+        }
+        .bar-light {
+          fill: #b08b8b;
+        }
+        .axis {
+          stroke: #d1d1d1;
+          stroke-width: 1;
+        }
+        .grid-dashed {
+          stroke: #a8a8a8;
+          stroke-width: 1;
+          stroke-dasharray: 6 6;
+        }
+        .label {
+          fill: #4a4a4a;
+          font-size: 12px;
+          font-family: Montserrat, sans-serif;
+          user-select: none;
+        }
+        .label-vertical {
+          font-size: 11px;
+          fill: #4a4a4a;
+          font-family: Montserrat, sans-serif;
+          user-select: none;
+        }
+        .label-small {
+          font-size: 10px;
+          fill: #4a4a4a;
+          font-family: Montserrat, sans-serif;
+          user-select: none;
+        }
+        .value-label {
+          font-size: 11px;
+          fill: #4a4a4a;
+          font-family: Montserrat, sans-serif;
+          user-select: none;
+          font-weight: 600;
+        }
+      </style>
+
+      <!-- Vertical axis lines and labels -->
+      <line x1="100" y1="50" x2="100" y2="550" class="axis" />
+      <line x1="100" y1="550" x2="1820" y2="550" class="axis" />
+
+      <!-- Horizontal grid lines and labels -->
+      <line x1="100" y1="500" x2="1820" y2="500" class="grid-dashed" />
+      <line x1="100" y1="450" x2="1820" y2="450" class="axis" />
+      <line x1="100" y1="400" x2="1820" y2="400" class="grid-dashed" />
+      <line x1="100" y1="350" x2="1820" y2="350" class="axis" />
+      <line x1="100" y1="300" x2="1820" y2="300" class="grid-dashed" />
+      <line x1="100" y1="250" x2="1820" y2="250" class="axis" />
+      <line x1="100" y1="200" x2="1820" y2="200" class="grid-dashed" />
+      <line x1="100" y1="150" x2="1820" y2="150" class="axis" />
+      <line x1="100" y1="100" x2="1820" y2="100" class="grid-dashed" />
+      <line x1="100" y1="50" x2="1820" y2="50" class="axis" />
+
+      <!-- Vertical axis label -->
+      <text
+        x="40"
+        y="300"
+        class="label-vertical"
+        style="writing-mode: tb; text-anchor: middle;"
+      >
+        Embodied carbon intensity (kgCO₂e/m²)
+      </text>
+
+      <!-- Legend lines -->
+      <line x1="120" y1="120" x2="180" y2="120" class="grid-dashed" />
+      <line x1="120" y1="140" x2="180" y2="140" class="axis" />
+
+      <!-- Legend text -->
+      <text x="190" y="125" class="label-small" dominant-baseline="middle">
+        500 kgCO
+        <tspan baseline-shift="sub">2</tspan>e/m
+        <tspan baseline-shift="super">2</tspan> - Embodied Carbon Target 2030
+      </text>
+      <text x="190" y="145" class="label-small" dominant-baseline="middle">
+        600 kgCO
+        <tspan baseline-shift="sub">2</tspan>e/m
+        <tspan baseline-shift="super">2</tspan> - Embodied Carbon Target 2025
+      </text>
+
+      <!-- Bars and values -->
+      <!-- Data: [549, 278, 875, 617, 506, 36, 185, 191, 122, 550, 881, 539, 269, 29, 82, 44, 109, 106, 607, 528] -->
+      <!-- Bars width 40, gap 50, start x=120 -->
+      <!-- Max height 500 for 1200 value, scale = 500/1200 = 0.4167 -->
+      <!-- Bar colors: first bar lighter (#b08b8b), others #6a4545 -->
+      <!-- Bar x positions: 120 + i*50 -->
+
+      <!-- Helper function for bar height and y -->
+      <script type="application/ecmascript">
+        <![CDATA[
+          function barHeight(value) {
+            return value * 0.4167;
+          }
+          function barY(value) {
+            return 550 - barHeight(value);
+          }
+        ]]>
+      </script>
+
+      <!-- Bar 1 -->
+      <rect
+        x="120"
+        y="328.7"
+        width="40"
+        height="220.3"
+        fill="#b08b8b"
+      />
+      <text x="140" y="323" class="value-label" text-anchor="middle">
+        549
+      </text>
+
+      <!-- Bar 2 -->
+      <rect x="170" y="436.0" width="40" height="114.0" fill="#6a4545" />
+      <text x="190" y="431" class="value-label" text-anchor="middle">
+        278
+      </text>
+
+      <!-- Bar 3 -->
+      <rect x="220" y="191.5" width="40" height="358.5" fill="#6a4545" />
+      <text x="240" y="186" class="value-label" text-anchor="middle">
+        875
+      </text>
+
+      <!-- Bar 4 -->
+      <rect x="270" y="293.3" width="40" height="256.7" fill="#6a4545" />
+      <text x="290" y="288" class="value-label" text-anchor="middle">
+        617
+      </text>
+
+      <!-- Bar 5 -->
+      <rect x="320" y="309.2" width="40" height="240.8" fill="#6a4545" />
+      <text x="340" y="304" class="value-label" text-anchor="middle">
+        506
+      </text>
+
+      <!-- Bar 6 -->
+      <rect x="370" y="535.0" width="40" height="15.0" fill="#6a4545" />
+      <text x="390" y="530" class="value-label" text-anchor="middle">
+        36
+      </text>
+
+      <!-- Bar 7 -->
+      <rect x="420" y="472.3" width="40" height="77.7" fill="#6a4545" />
+      <text x="440" y="467" class="value-label" text-anchor="middle">
+        185
+      </text>
+
+      <!-- Bar 8 -->
+      <rect x="470" y="468.3" width="40" height="81.7" fill="#6a4545" />
+      <text x="490" y="463" class="value-label" text-anchor="middle">
+        191
+      </text>
+
+      <!-- Bar 9 -->
+      <rect x="520" y="500.9" width="40" height="49.1" fill="#6a4545" />
+      <text x="540" y="495" class="value-label" text-anchor="middle">
+        122
+      </text>
+
+      <!-- Bar 10 -->
+      <rect x="570" y="327.1" width="40" height="222.9" fill="#6a4545" />
+      <text x="590" y="322" class="value-label" text-anchor="middle">
+        550
+      </text>
+
+      <!-- Bar 11 -->
+      <rect x="620" y="213.3" width="40" height="336.7" fill="#6a4545" />
+      <text x="640" y="208" class="value-label" text-anchor="middle">
+        881
+      </text>
+
+      <!-- Bar 12 -->
+      <rect x="670" y="331.7" width="40" height="218.3" fill="#6a4545" />
+      <text x="690" y="326" class="value-label" text-anchor="middle">
+        539
+      </text>
+
+      <!-- Bar 13 -->
+      <rect x="720" y="439.1" width="40" height="110.9" fill="#6a4545" />
+      <text x="740" y="434" class="value-label" text-anchor="middle">
+        269
+      </text>
+
+      <!-- Bar 14 -->
+      <rect x="770" y="538.9" width="40" height="11.1" fill="#6a4545" />
+      <text x="790" y="533" class="value-label" text-anchor="middle">
+        29
+      </text>
+
+      <!-- Bar 15 -->
+      <rect x="820" y="516.0" width="40" height="34.0" fill="#6a4545" />
+      <text x="840" y="511" class="value-label" text-anchor="middle">
+        82
+      </text>
+
+      <!-- Bar 16 -->
+      <rect x="870" y="528.7" width="40" height="21.3" fill="#6a4545" />
+      <text x="890" y="523" class="value-label" text-anchor="middle">
+        44
+      </text>
+
+      <!-- Bar 17 -->
+      <rect x="920" y="505.5" width="40" height="44.5" fill="#6a4545" />
+      <text x="940" y="500" class="value-label" text-anchor="middle">
+        109
+      </text>
+
+      <!-- Bar 18 -->
+      <rect x="970" y="507.7" width="40" height="42.3" fill="#6a4545" />
+      <text x="990" y="502" class="value-label" text-anchor="middle">
+        106
+      </text>
+
+      <!-- Bar 19 -->
+      <rect x="1020" y="324.2" width="40" height="225.8" fill="#6a4545" />
+      <text x="1040" y="319" class="value-label" text-anchor="middle">
+        607
+      </text>
+
+      <!-- Bar 20 -->
+      <rect x="1070" y="343.3" width="40" height="206.7" fill="#6a4545" />
+      <text x="1090" y="338" class="value-label" text-anchor="middle">
+        528
+      </text>
+    </svg>
+  </div>
+
+  <!-- Accessibility icon bottom right -->
+  <button
+    aria-label="Accessibility options"
+    class="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[#ff9a8a] text-white flex items-center justify-center shadow-lg"
+  >
+    <i class="fas fa-universal-access fa-lg"></i>
+  </button>
+</body>
+</html>
